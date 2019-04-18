@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if request.resolver_match.url_name == 'create' %}
+    <h1>글쓰기</h1>
+{% elif request.resolver_match.url_name == 'update' %}
+    <h1>{{ board.title }} 고치기</h1>
+{% endif %}
+<form action="" method="POST">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons submit="제출" reset="초기화" %}{% endbuttons %}
+</form>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+    <div class="board">
+        <h1>{{ board.title }}</h1>
+        <p>{{ board.content }}</p>
+    </div>
+    <hr>
+    <form action="{% url 'boards:comment_create' board.pk %}" method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons submit="제출" %}{% endbuttons %}
+    </form>
+    <hr>
+    <div class="comments">
+        {% for comment in board.comment_set.all %}
+            <div><span>{{ comment.user }}</span> / {{ comment.content }}</div>
+        {% endfor %}
+    </div>
+    <div class="d-flex">
+        <a class="btn btn-warning" href="{% url 'boards:edit' board.id %}">EDIT</a>
+        <form style="display: inline;" action="{% url 'boards:delete' board.id %}" method="POST">
+            {% csrf_token %}
+            <button class="mx-3 btn btn-danger" type="submit">DELETE</button>
+        </form>
+        <a class="btn btn-primary" href="{% url 'boards:list' %}">BACK</a>
+    </div>
+{% endblock %}
